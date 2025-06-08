@@ -39,12 +39,7 @@ local m = 2
 local Button = Tab:CreateButton({
    Name = "ВРЕМЯ СОСАТЬ БЛЯ",
    Callback = function()
-      Rayfield:Notify({
-         Title = "иди нахуй хуесосина",
-         Content = "ыыыыыыыыы",
-         Duration = 6.5,
-         Image = "rewind",
-      })
+      -- Уведомление убрано
    end,
 })
 
@@ -79,29 +74,10 @@ local Toggle = Tab:CreateToggle({
             -- Включаем бесконечные прыжки
             Humanoid.JumpPower = 50
             setupInfiniteJump()
-            Rayfield:Notify({
-               Title = "инфэнитэ жамп",
-               Content = "врубил",
-               Duration = 3,
-               Image = "rewind"
-            })
          else
             -- Выключаем бесконечные прыжки
             Humanoid.JumpPower = DefaultJumpPower
-            Rayfield:Notify({
-               Title = "инфэнитэ жамп",
-               Content = "вырубил",
-               Duration = 3,
-               Image = "rewind"
-            })
          end
-      else
-         Rayfield:Notify({
-            Title = "ашибка",
-            Content = "далбаеб, персанажа нэт",
-            Duration = 3,
-            Image = "alert_triangle"
-         })
       end
    end
 })
