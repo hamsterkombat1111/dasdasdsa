@@ -47,6 +47,10 @@ local Button = Tab:CreateButton({
 local InfiniteJumpEnabled = false
 local DefaultJumpPower = 50
 
+-- Переменные для скорости
+local DefaultWalkSpeed = 16
+local CurrentWalkSpeed = DefaultWalkSpeed
+
 -- Функция для обработки прыжков
 local function setupInfiniteJump()
    if InfiniteJumpEnabled then
@@ -74,19 +78,56 @@ local Toggle = Tab:CreateToggle({
             -- Включаем бесконечные прыжки
             Humanoid.JumpPower = 50
             setupInfiniteJump()
+            Rayfield:Notify({
+               Title = "инфэнитэ жамп",
+               Content = "врубил",
+               Duration = 3,
+               Image = "rewind"
+            })
          else
             -- Выключаем бесконечные прыжки
             Humanoid.JumpPower = DefaultJumpPower
+            Rayfield:Notify({
+               Title = "инфэнитэ жамп",
+               Content = "вырубил",
+               Duration = 3,
+               Image = "rewind"
+            })
          end
+      else
+         Rayfield:Notify({
+            Title = "ашибка",
+            Content = "далбаеб, персанажа нэт",
+            Duration = 3,
+            Image = "alert_triangle"
+         })
+      end
+   end
+})
+
+-- Создаем слайдер для изменения скорости
+local Slider = Tab:CreateSlider({
+   Name = "хуйня для скорости",
+   Range = {16, 100},
+   Increment = 1,
+   Suffix = "скорость",
+   CurrentValue = DefaultWalkSpeed,
+   Flag = "SpeedSlider",
+   Callback = function(Value)
+      CurrentWalkSpeed = Value
+      if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+         local Humanoid = LocalPlayer.Character.Humanoid
+         Humanoid.WalkSpeed = Value
       end
    end
 })
 
 -- Обработка появления нового персонажа
 LocalPlayer.CharacterAdded:Connect(function(Character)
+   local Humanoid = Character:WaitForChild("Humanoid")
    if InfiniteJumpEnabled then
-      local Humanoid = Character:WaitForChild("Humanoid")
       Humanoid.JumpPower = 50
       setupInfiniteJump()
    end
+   Humanoid.WalkSpeed = CurrentWalkSpeed
 end)
