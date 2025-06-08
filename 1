@@ -1,0 +1,116 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+local UserInputService = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+-- Создаем окно интерфейса
+local Window = Rayfield:CreateWindow({
+   Name = "АХАХАХААХА ИДИ НАХУЙ ЫЫЫЫ",
+   Icon = 0,
+   LoadingTitle = "пр",
+   LoadingSubtitle = "иди нахой",
+   Theme = "Default",
+   ToggleUIKeybind = "K",
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false,
+   Discord = {
+      Enabled = false,
+      Invite = "noinvitelink",
+      RememberJoins = true
+   },
+   KeySystem = true,
+   KeySettings = {
+      Title = "пр",
+      Subtitle = "скажи сваю касту",
+      Note = "кто ты?",
+      FileName = "Key",
+      SaveKey = false,
+      GrabKeyFromSite = false,
+      Key = {"я члено сос"}
+   }
+})
+
+-- Создаем вкладку
+local Tab = Window:CreateTab("НАЖМИ ЧТОБ ПОСОСАТЬ", 4483362458)
+
+local m = 2
+
+-- Кнопка
+local Button = Tab:CreateButton({
+   Name = "ВРЕМЯ СОСАТЬ БЛЯ",
+   Callback = function()
+      Rayfield:Notify({
+         Title = "иди нахуй хуесосина",
+         Content = "ыыыыыыыыы",
+         Duration = 6.5,
+         Image = "rewind",
+      })
+   end,
+})
+
+-- Переменные для бесконечных прыжков
+local InfiniteJumpEnabled = false
+local DefaultJumpPower = 50
+
+-- Функция для обработки прыжков
+local function setupInfiniteJump()
+   if InfiniteJumpEnabled then
+      local connection
+      connection = UserInputService.JumpRequest:Connect(function()
+         if InfiniteJumpEnabled and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+            LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+         else
+            connection:Disconnect() -- Отключаем, если условия не выполнены
+         end
+      end)
+   end
+end
+
+-- Создаем тумблер
+local Toggle = Tab:CreateToggle({
+   Name = "инфэнитэ жамп",
+   CurrentValue = false,
+   Flag = "Toggle1",
+   Callback = function(Value)
+      InfiniteJumpEnabled = Value
+      if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+         local Humanoid = LocalPlayer.Character.Humanoid
+         if Value then
+            -- Включаем бесконечные прыжки
+            Humanoid.JumpPower = 50
+            setupInfiniteJump()
+            Rayfield:Notify({
+               Title = "инфэнитэ жамп",
+               Content = "врубил",
+               Duration = 3,
+               Image = "rewind"
+            })
+         else
+            -- Выключаем бесконечные прыжки
+            Humanoid.JumpPower = DefaultJumpPower
+            Rayfield:Notify({
+               Title = "инфэнитэ жамп",
+               Content = "вырубил",
+               Duration = 3,
+               Image = "rewind"
+            })
+         end
+      else
+         Rayfield:Notify({
+            Title = "ашибка",
+            Content = "далбаеб, персанажа нэт",
+            Duration = 3,
+            Image = "alert_triangle"
+         })
+      end
+   end
+})
+
+-- Обработка появления нового персонажа
+LocalPlayer.CharacterAdded:Connect(function(Character)
+   if InfiniteJumpEnabled then
+      local Humanoid = Character:WaitForChild("Humanoid")
+      Humanoid.JumpPower = 50
+      setupInfiniteJump()
+   end
+end)
